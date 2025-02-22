@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 API Demonstration</title>
+</head>
+<body>
+    <h2>Geolocation API</h2>
+    <button onclick="getLocation()">Get Location</button>
+    <p id="location"></p>
+
+    <h2>Drag and Drop API</h2>
+    <div id="dragDiv" draggable="true" style="width:100px;height:100px;background:red;"></div>
+    <div id="dropZone" style="width:200px;height:100px;border:2px dashed black;margin-top:10px;"></div>
+    
+    <h2>Web Storage API</h2>
+    <input type="text" id="name" placeholder="Enter your name">
+    <button>Save</button>
+    <button>Load</button>
+    <p id="storedData"></p>
+    
+    <h2>Web Workers API</h2>
+    <button>Start Worker</button>
+    <p id="workerOutput"></p>
+    
+    <h2>Server-Sent Events (SSE)</h2>
+    <p id="sseData"></p>
+</body>
+</html>
