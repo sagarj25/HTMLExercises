@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop API</title>
+    <style>
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background: red;
+            text-align: center;
+            line-height: 100px;
+            color: white;
+            font-weight: bold;
+            cursor: grab;
+            margin: 5px;
+        }
+        #dropZone {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed black;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <h2>Drag and Drop API</h2>
+
+    <div id="dragDiv" class="draggable" draggable="true">Drag Me</div>
+    <div id="dropZone"><span id="dropText">Drop Here</span></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dragDiv = document.getElementById("dragDiv");
+            const dropZone = document.getElementById("dropZone");
+            const dropText = document.getElementById("dropText");
+            let isDropped = false; 
+
+            // Drag Start
+            dragDiv.addEventListener("dragstart", function (event) {
+                event.dataTransfer.setData("text", event.target.id);
+                event.target.style.opacity = "0.5";
+            });
+
+            // Drag End
+            dragDiv.addEventListener("dragend", function (event) {
+                event.target.style.opacity = "1";
+            });
+
+            // Allow Drop
+            dropZone.addEventListener("dragover", function (event) {
+                event.preventDefault();
+                if (!isDropped) {
+                    dropZone.style.borderColor = "blue";
+                }
+            });
+
+            // Drag Leave
+            dropZone.addEventListener("dragleave", function () {
+                dropZone.style.borderColor = "black";
+            });
+
+            // Drop Event
+            dropZone.addEventListener("drop", function (event) {
+                event.preventDefault();
+                if (!isDropped) {
+                    const draggedElement = document.getElementById(event.dataTransfer.getData("text"));
+                    dropZone.appendChild(draggedElement); 
+                    draggedElement.style.position = "absolute";
+                    draggedElement.style.top = "50%";
+                    draggedElement.style.left = "50%";
+                    draggedElement.style.transform = "translate(-50%, -50%)";
+                    dropText.style.display = "none"; 
+                    dropZone.style.borderColor = "black";
+                    isDropped = true;
+                }
+            });
+
+            
+            dragDiv.addEventListener("dragstart", function () {
+                if (isDropped) {
+                    document.body.appendChild(dragDiv); 
+                    dragDiv.style.position = "static"; 
+                    isDropped = false;
+                    dropText.style.display = "block";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

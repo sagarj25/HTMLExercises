@@ -3,28 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML5 API Demonstration</title>
+    <title>Geolocation API Demo</title>
 </head>
 <body>
     <h2>Geolocation API</h2>
     <button onclick="getLocation()">Get Location</button>
-    <p id="location"></p>
+    <p id="location">Click the button to get your location.</p>
+    <hr />
 
-    <h2>Drag and Drop API</h2>
-    <div id="dragDiv" draggable="true" style="width:100px;height:100px;background:red;"></div>
-    <div id="dropZone" style="width:200px;height:100px;border:2px dashed black;margin-top:10px;"></div>
-    
-    <h2>Web Storage API</h2>
-    <input type="text" id="name" placeholder="Enter your name">
-    <button>Save</button>
-    <button>Load</button>
-    <p id="storedData"></p>
-    
-    <h2>Web Workers API</h2>
-    <button>Start Worker</button>
-    <p id="workerOutput"></p>
-    
-    <h2>Server-Sent Events (SSE)</h2>
-    <p id="sseData"></p>
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError, {
+                enableHighAccuracy: true, 
+                timeout: 10000, 
+                maximumAge: 0 
+            });
+        } else {
+            document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        
+
+        document.getElementById("location").innerHTML =
+            `Latitude: ${latitude}<br>
+             Longitude: ${longitude}<br>`;
+    }
+
+    function showError(error) {
+        let errorMessage = "";
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                errorMessage = "User denied the request for Geolocation. Please enable location access.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information is unavailable. Try again later.";
+                break;
+            case error.TIMEOUT:
+                errorMessage = "The request to get user location timed out. Move to an open area and try again.";
+                break;
+            case error.UNKNOWN_ERROR:
+                errorMessage = "An unknown error occurred. Please refresh and try again.";
+                break;
+        }
+        document.getElementById("location").innerHTML = errorMessage;
+    }
+</script>   
+
 </body>
 </html>
